@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER_SECURITY // MEMORY CIPHER PROTOCOL</title>
+  <meta name="description" content="Simulador de terminal de ciberseguridad y minijuego de memoria para desbloquear herramientas de hacking ético.">
+  
+  <!-- Google Fonts: Orbitron & Fira Code & Share Tech Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Orbitron:wght@600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fondo con efecto matriz y escáner CRT -->
+  <div class="crt-overlay"></div>
+  <div class="scanlines"></div>
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="app-container">
+
+    <!-- SECCIÓN 1: PANTALLA DE LOGIN (TERMINAL CLI) -->
+    <section id="login-section" class="terminal-wrapper active">
+      <div class="terminal-window">
+        <!-- Barra de título de la terminal -->
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot close"></span>
+            <span class="control-dot minimize"></span>
+            <span class="control-dot maximize"></span>
+          </div>
+          <div class="terminal-title">bash - root@mainframe:~ (sec-terminal v4.0.9)</div>
+          <div class="terminal-secure-tag">TLS 1.3 // ENCRYPTED</div>
+        </div>
+
+        <!-- Cuerpo de la terminal -->
+        <div class="terminal-body">
+          <pre class="ascii-banner">
+ ██████╗██╗   ██╗██████╗ ███████╗██████╗ 
+██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗
+██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝
+██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗
+╚██████╗   ██║   ██████╔╝███████╗██║  ██║
+ ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝
+[CYBER DEFENSE & SEC-OPS PROTOCOL INITIALIZED]
+          </pre>
+
+          <div class="terminal-logs">
+            <p><span class="log-info">[+] Core System:</span> Linux 6.1.0-sec-amd64 x86_64</p>
+            <p><span class="log-info">[+] Firewall Protocol:</span> Snort IDS/IPS Active</p>
+            <p><span class="log-warn">[!] ADVERTENCIA:</span> Acceso restringido. Intentos no autorizados serán rastreados.</p>
+            <p><span class="log-prompt">root@gateway:~$</span> <span class="cmd-text">iniciar_sesion --modulo-memoria</span></p>
+            <p class="sys-hint">> Credenciales de prueba: Usuario: <strong>admin</strong> | Contraseña: <strong>admin</strong></p>
+          </div>
+
+          <!-- Formulario de Login -->
+          <form id="login-form" class="terminal-form" autocomplete="off">
+            <div class="input-line">
+              <label for="username" class="prompt-label">root@node:~$ login -u</label>
+              <input type="text" id="username" class="terminal-input" placeholder="admin" required autofocus autocomplete="off">
+            </div>
+
+            <div class="input-line">
+              <label for="password" class="prompt-label">root@node:~$ password -p</label>
+              <input type="password" id="password" class="terminal-input" placeholder="••••••••" required autocomplete="off">
+            </div>
+
+            <div id="login-feedback" class="terminal-feedback" aria-live="polite"></div>
+
+            <div class="form-actions">
+              <button type="submit" id="btn-login" class="cyber-btn primary">
+                <span class="btn-glitch">[ ENTER // AUTENTICAR ]</span>
+              </button>
+              <button type="button" id="btn-autofill" class="cyber-btn secondary">
+                <span>[ AUTOFILL / BYPASS ]</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: MINIJUEGO DE MEMORIA (MAINFRAME DESBLOQUEADO) -->
+    <section id="game-section" class="game-wrapper hidden">
+      
+      <!-- Barra superior / Top Bar HUD -->
+      <header class="hud-header">
+        <div class="hud-left">
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span class="status-text">MAINFRAME: <strong>DESCIFRANDO DATOS</strong></span>
+          </div>
+          <div class="operator-tag">OPERADOR: <span class="cyan-text">root@blackhat</span></div>
+        </div>
+
+        <div class="hud-center">
+          <h1 class="game-title">CYBER CIPHER // MEMORY</h1>
+          <p class="game-subtitle">Empareja las herramientas de seguridad para descifrar el sistema</p>
+        </div>
+
+        <div class="hud-right">
+          <button id="btn-sound-toggle" class="hud-btn" title="Activar/Silenciar Efectos de Sonido">
+            <span id="sound-icon">🔊</span> AUDIO: <span id="sound-status">ON</span>
+          </button>
+          <button id="btn-logout" class="hud-btn danger" title="Cerrar Sesión">
+            🔒 BLOQUEAR TERMINAL
+          </button>
+        </div>
+      </header>
+
+      <!-- Panel de Estadísticas / HUD Stats -->
+      <div class="hud-stats-panel">
+        <div class="stat-box">
+          <span class="stat-label">TIEMPO</span>
+          <span id="time-display" class="stat-value neon-cyan">00:00</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">MOVIMIENTOS</span>
+          <span id="moves-display" class="stat-value neon-green">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">PAREJAS</span>
+          <span id="pairs-display" class="stat-value neon-purple">0 / 8</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">PRECISIÓN</span>
+          <span id="accuracy-display" class="stat-value neon-yellow">100%</span>
+        </div>
+        <div class="stat-box action-box">
+          <button id="btn-restart" class="cyber-btn reload-btn">
+            <span>⟳ REINICIAR PARTIDA</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tablero del Juego (4x4 = 16 Cartas) -->
+      <div id="game-board" class="memory-grid" role="region" aria-label="Tablero de cartas de memoria">
+        <!-- Las cartas se generarán dinámicamente desde script.js -->
+      </div>
+
+      <!-- Consola de Estado Inferior -->
+      <footer class="hud-footer">
+        <div class="footer-log">
+          <span class="log-indicator">></span> <span id="terminal-event-log">Esperando entrada del analista de seguridad... Selecciona 2 tarjetas.</span>
+        </div>
+        <div class="footer-target">
+          OBJETIVO: 8/8 NODOS CRIPTOGRÁFICOS
+        </div>
+      </footer>
+    </section>
+
+    <!-- MODAL DE VICTORIA -->
+    <div id="victory-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <div class="modal-glow-line"></div>
+        <div class="modal-header">
+          <div class="access-badge">ROOT ACCESS GRANTED</div>
+          <h2 class="modal-title">¡SISTEMA COMPLETAMENTE DESCIFRADO!</h2>
+          <p class="modal-subtitle">Has neutralizado la contramedida y obtenido control total del nodo.</p>
+        </div>
+
+        <div class="modal-stats-grid">
+          <div class="modal-stat">
+            <span class="m-label">TIEMPO TOTAL</span>
+            <span id="final-time" class="m-value">00:00</span>
+          </div>
+          <div class="modal-stat">
+            <span class="m-label">MOVIMIENTOS</span>
+            <span id="final-moves" class="m-value">0</span>
+          </div>
+          <div class="modal-stat">
+            <span class="m-label">EFICIENCIA</span>
+            <span id="final-rating" class="m-value">★★★</span>
+          </div>
+          <div class="modal-stat">
+            <span class="m-label">PRECISIÓN</span>
+            <span id="final-accuracy" class="m-value">100%</span>
+          </div>
+        </div>
+
+        <div class="modal-summary">
+          <p class="summary-code">[+] 8/8 Cifrados vulnerados exitosamente con Nmap, Wireshark, Flipper Zero, Rubber Ducky, Metasploit, Burp Suite, Snort y Shodan.</p>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-play-again" class="cyber-btn primary large">
+            <span>[ JUGAR OTRA VEZ // NUEVA MISIÓN ]</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
