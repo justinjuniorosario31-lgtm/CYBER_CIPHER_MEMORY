@@ -1,0 +1,49 @@
+1. Clonar el repositorio desde GitHub a tu máquina en Parrot OS
+Comando: git clone [https://github.com/justinjuniorosario31-lgtm/CYBER_CIPHER_MEMORY.git](https://github.com/justinjuniorosario31-lgtm/CYBER_CIPHER_MEMORY.git)
+
+Explicación: Descarga el proyecto inicial con los archivos web de la aplicación (HTML, CSS y JS) desde GitHub hacia tu entorno local.
+
+2. Entrar a la carpeta del proyecto
+Comando: cd CYBER_CIPHER_MEMORY
+
+Explicación: Posiciona la terminal dentro del directorio de trabajo donde se encuentran los archivos del proyecto.
+
+3. Crear y configurar el archivo de instrucciones del contenedor
+Comando: nano Dockerfile (o crearlo y colocar: FROM docker.io/library/nginx:alpine, COPY . /usr/share/nginx/html, EXPOSE 80)
+
+Explicación: Crea el archivo de texto Dockerfile que define la base de Nginx Alpine y le indica a Docker que copie los archivos de la página web al servidor.
+
+4. Construir la imagen local del contenedor con Podman/Docker
+Comando: docker build -t jrosario31/cyber-memory:latest .
+
+Explicación: Compila la aplicación utilizando el Dockerfile de la carpeta actual (.) y genera la imagen local etiquetándola con tu usuario y versión.
+
+5. Iniciar sesión en el registro de Docker Hub
+Comando: docker login docker.io
+
+Explicación: Autentica tu cuenta en la plataforma de Docker Hub introduciendo tu usuario y contraseña para permitir la subida de imágenes.
+
+6. Etiquetar la imagen para el registro remoto
+Comando: docker tag jrosario31/cyber-memory:latest docker.io/jrosario31/cyber-memory:latest
+
+Explicación: Crea un alias o etiqueta con la ruta completa del registro oficial para que el motor de contenedores reconozca el destino exacto.
+
+7. Subir la imagen a la nube (Docker Hub)
+Comando: docker push docker.io/jrosario31/cyber-memory:latest
+
+Explicación: Sube la imagen empaquetada del contenedor desde tu máquina local hacia tu repositorio público en la web.
+
+8. Instalar la herramienta de análisis de seguridad (Trivy)
+Comando: sudo apt update && sudo apt install trivy -y
+
+Explicación: Actualiza los repositorios del sistema operativo e instala de forma automatizada Trivy en Parrot OS.
+
+9. Realizar el escaneo de vulnerabilidades a la imagen
+Comando: trivy image jrosario31/cyber-memory:latest
+
+Explicación: Ejecuta un análisis de seguridad capa por capa sobre la imagen del contenedor para detectar fallos, librerías desactualizadas y riesgos de seguridad.
+
+10. Probar la ejecución local del contenedor
+Comando: docker run -d -p 8080:80 jrosario31/cyber-memory:latest
+
+Explicación: Despliega y ejecuta el contenedor en segundo plano (-d), enlazando el puerto 8080 de tu equipo con el puerto 80 del servidor Nginx (-p) para verificar que la web funcione correctamente.
